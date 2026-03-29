@@ -42,26 +42,41 @@ function fetchIP() {
     .catch(() => { document.getElementById('ip-display').textContent = 'N/A'; });
 }
 
-// ─── RENDER LINKS ───
 function renderLinks() {
   const grid = document.getElementById('links-grid');
   grid.innerHTML = '';
   (appData.links || []).forEach((link, i) => {
+    const favicon = getFaviconUrl(link.url);
+    const iconHTML = favicon
+      ? `<img src="${favicon}" alt="" class="link-favicon" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
+      : '';
+    const fallback = `<div class="link-icon" ${favicon ? 'style="display:none"' : ''}>${link.icon || '🌐'}</div>`;
+
     const a = document.createElement('a');
     a.href = link.url;
     a.target = '_blank';
     a.rel = 'noopener';
     a.className = 'link-card';
     a.style.cssText = `--card-color:${link.color || 'var(--accent)'};animation-delay:${i*40}ms`;
-    a.innerHTML = `<div class="link-icon">${link.icon || '🌐'}</div><div class="link-title">${link.title}</div>`;
+    a.innerHTML = `${iconHTML}${fallback}<div class="link-title">${link.title}</div>`;
     grid.appendChild(a);
   });
-  // Add card
+  // Add-Card
   const add = document.createElement('div');
   add.className = 'link-card add-card';
   add.onclick = () => openAddLink();
   add.innerHTML = `<div class="link-icon">+</div><div class="link-title">Hinzufügen</div>`;
   grid.appendChild(add);
+}
+
+// ─── FAVICON URL ───
+function getFaviconUrl(url) {
+  try {
+    const domain = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+  } catch {
+    return null;
+  }
 }
 
 // ─── RENDER WIDGETS ───

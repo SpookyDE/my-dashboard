@@ -39,7 +39,7 @@ DEFAULT_DATA = {
 
 def load_data():
     if os.path.exists(DATA_FILE):
-        with open(DATA_FILE) as f:
+        with open(DATA_FILE, encoding="utf-8") as f:
             return json.load(f)
     return DEFAULT_DATA
 

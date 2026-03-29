@@ -135,6 +135,12 @@
   .link-icon { font-size: 26px; line-height: 1; position: relative; }
   .link-title { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-align: center; position: relative; }
 
+  .link-favicon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
   .link-card.add-card {
     border-style: dashed; color: var(--muted);
     background: transparent;
