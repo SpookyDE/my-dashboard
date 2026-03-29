@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="greeting" id="greeting-text">{{ data.settings.greeting }}</span>
+    <div class="header-right">
+      <div class="header-stat"><div class="dot"></div><span id="clock">--:--:--</span></div>
+      <div class="header-stat"><div class="dot" style="background:#60a5fa;box-shadow:0 0 6px #60a5fa"></div><span id="ip-display">IP laden…</span></div>
+      <button class="btn-settings" onclick="openSettings()">⚙ Einstellungen</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="section-label">Meine Links</div>
+    <div class="links-grid" id="links-grid"></div>
+
+    <div class="section-label">Widgets</div>
+    <div class="widgets-grid" id="widgets-grid"></div>
+
+  </div>
+</main>
+
+<!-- ─── SETTINGS MODAL ─── -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <h2>⚙ Einstellungen</h2>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('links')">Links</div>
+      <div class="tab" onclick="switchTab('widgets')">Widgets</div>
+      <div class="tab" onclick="switchTab('general')">Allgemein</div>
+    </div>
+
+    <!-- Links Tab -->
+    <div id="tab-links">
+      <div class="link-list" id="link-list"></div>
+      <button class="btn-primary" style="width:100%" onclick="openAddLink()">+ Link hinzufügen</button>
+    </div>
+
+    <!-- Widgets Tab -->
+    <div id="tab-widgets" style="display:none">
+      <div class="link-list" id="widget-list"></div>
+      <button class="btn-primary" style="width:100%" onclick="openAddWidget()">+ Widget hinzufügen</button>
+    </div>
+
+    <!-- General Tab -->
+    <div id="tab-general" style="display:none">
+      <div class="form-group">
+        <label>Begrüßungstext</label>
+        <input type="text" id="g-greeting" placeholder="Willkommen!">
+      </div>
+      <div class="form-group">
+        <label>Akzentfarbe</label>
+        <div class="color-row">
+          <input type="color" id="g-color-picker">
+          <input type="text" id="g-color-text" placeholder="#00d4aa">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSettings()">Abbrechen</button>
+      <button class="btn-primary" onclick="saveSettings()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ADD LINK MODAL ─── -->
+<div class="modal-overlay" id="add-link-modal">
+  <div class="modal">
+    <h2>🔗 Link hinzufügen</h2>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="l-title" placeholder="z.B. GitHub">
+    </div>
+    <div class="form-group">
+      <label>URL</label>
+      <input type="text" id="l-url" placeholder="https://...">
+    </div>
+    <div class="form-group">
+      <label>Icon (Emoji)</label>
+      <input type="text" id="l-icon" placeholder="🌐">
+    </div>
+    <div class="form-group">
+      <label>Akzentfarbe</label>
+      <div class="color-row">
+        <input type="color" id="l-color-picker" value="#00d4aa">
+        <input type="text" id="l-color-text" placeholder="#00d4aa">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('add-link-modal')">Abbrechen</button>
+      <button class="btn-primary" onclick="saveLink()">Hinzufügen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ADD WIDGET MODAL ─── -->
+<div class="modal-overlay" id="add-widget-modal">
+  <div class="modal">
+    <h2>📦 Widget hinzufügen</h2>
+    <div class="form-group">
+      <label>Titel</label>
+      <input type="text" id="w-title" placeholder="z.B. Wetter Berlin">
+    </div>
+    <div class="form-group">
+      <label>Typ</label>
+      <div class="type-chips">
+        <div class="chip active" onclick="selectType('iframe',this)">iFrame / URL</div>
+        <div class="chip" onclick="selectType('clock',this)">Uhr</div>
+      </div>
+    </div>
+    <div id="w-url-group" class="form-group">
+      <label>Embed URL</label>
+      <input type="text" id="w-url" placeholder="https://wttr.in/Berlin?0&T">
+      <small style="color:var(--muted);font-size:11px;margin-top:6px;display:block">
+        Tipp: wttr.in, openweathermap, Kalender-Embeds, Sportergebnisse etc.
+      </small>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('add-widget-modal')">Abbrechen</button>
+      <button class="btn-primary" onclick="saveWidget()">Hinzufügen</button>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
