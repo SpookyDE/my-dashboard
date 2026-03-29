@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-dashboard
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: my-dashboard
+  template:
+    metadata:
+      labels:
+        app: my-dashboard
+    spec:
+      containers:
+        - name: my-dashboard
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+              subPath: data.json
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: my-dashboard-pvc

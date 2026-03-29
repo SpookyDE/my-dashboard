@@ -1,0 +1,6 @@
+---
+apiVersion: v2
+name: dashboard
+description: MY DASHBOARD - A customizable dashboard built with Flask and Streamlit.
+version: 0.1.0
+appVersion: "1.0.0"
