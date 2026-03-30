@@ -45,4 +45,4 @@ jobs:
 
       - name: Deploy via Docker Compose
         run: |
-          docker compose -f docker-compose.yaml up -d
+          docker compose -f docker-compose.yaml up -d --force-recreate
