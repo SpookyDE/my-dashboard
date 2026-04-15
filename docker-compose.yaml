@@ -7,7 +7,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./data:/app/data
+      - ./data.json:/app/data.json
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
